@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <input type=button onClick="parent.location='users/add'"
+           value='Add new user'>
+</div>
+<div>
+    <h2>Users list</h2>
+    <table id="example" class="table table-bordered" style="width: 75%">
+        <thead>
+        <tr>
+            <th> Id</th>
+            <th> First Name</th>
+            <th> Last name</th>
+            <th> email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${users.empty}">
+            <td colspan="2"> No users available</td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td><span th:text="${user.getId()}"> Id </span></td>
+            <td><span th:text="${user.getFirstName()}">First Name </span></td>
+            <td><span th:text="${user.getLastName()}"> Last Name </span></td>
+            <td><span th:text="${user.getEmail()}"> Email </span></td>
+            <td><a th:href="@{users/update/{id}(id=${user.id})}">Edit</a></td>
+            <td><a th:href="@{users/remove/{id}(id=${user.id})}">Remove</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
