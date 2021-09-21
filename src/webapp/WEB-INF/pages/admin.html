@@ -8,8 +8,10 @@
 </head>
 <body>
 <div>
-    <input type=button onClick="parent.location='users/add'"
+    <input type=button onClick="parent.location='user/add'"
            value='Add new user'>
+    <input type=button onClick="parent.location='logout'"
+           value='Logout'>
 </div>
 <div>
     <h2>Users list</h2>
@@ -20,6 +22,7 @@
             <th> First Name</th>
             <th> Last name</th>
             <th> email</th>
+            <th> login</th>
         </tr>
         </thead>
         <tbody>
@@ -31,8 +34,9 @@
             <td><span th:text="${user.getFirstName()}">First Name </span></td>
             <td><span th:text="${user.getLastName()}"> Last Name </span></td>
             <td><span th:text="${user.getEmail()}"> Email </span></td>
-            <td><a th:href="@{users/update/{id}(id=${user.id})}">Edit</a></td>
-            <td><a th:href="@{users/remove/{id}(id=${user.id})}">Remove</a></td>
+            <td><span th:text="${user.getUsername()}"> Email </span></td>
+            <td><a th:href="@{user/update/{id}(id=${user.id})}">Edit</a></td>
+            <td><a th:href="@{user/remove/{id}(id=${user.id})}">Remove</a></td>
         </tr>
         </tbody>
     </table>

@@ -6,10 +6,13 @@
     <title>Add new user form</title>
 </head>
 <body>
-<h2> Add user data</h2>
+<h2> User page</h2>
 
 
-<form th:method="POST" th:action="@{/user}" th:object="${user}">
+<form th:method="POST" th:action="@{/user/update}" th:object="${user}">
+
+    <input type="hidden" th:field="*{id}">
+
     <label for="name"> Enter name </label>
     <input type="text" th:field="*{firstName}" id="name"/>
     <br>
@@ -25,16 +28,9 @@
     <label for="username"> Enter login </label>
     <input type="text" th:field="*{userName}" id="username">
     <br>
+    <input type="hidden" th:field="*{password}">
 
-    <label for="password"> Enter password </label>
-    <input type="password" th:field="*{password}" id="password">
-    <br>
-
-    <label for="passwordConfirm"> Confirm password </label>
-    <input type="password" th:field="*{passwordConfirm}" id="passwordConfirm">
-    <br>
-
-    <input type="submit" value="Create">
+    <input type="submit" value="Update">
 
 </form>
 

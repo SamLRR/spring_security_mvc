@@ -8,7 +8,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import web.model.Role;
 import web.model.User;
 
 import javax.sql.DataSource;
@@ -17,6 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
+@PropertySource(value = "classpath:auth.properties")
 @ComponentScan(value = "web")
 public class AppConfig {
 
@@ -44,7 +48,7 @@ public class AppConfig {
         prop.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         prop.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         factoryBean.setHibernateProperties(prop);
-        factoryBean.setAnnotatedClasses(User.class);
+        factoryBean.setAnnotatedClasses(User.class, Role.class);
         return factoryBean;
     }
 
@@ -53,5 +57,14 @@ public class AppConfig {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(getSessionFactory().getObject());
         return transactionManager;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
+        jdbcDao.setDataSource(getDataSource());
+        jdbcDao.setUsersByUsernameQuery(env.getRequiredProperty("userByQuery"));
+        jdbcDao.setAuthoritiesByUsernameQuery(env.getRequiredProperty("rolesByQuery"));
+        return jdbcDao;
     }
 }
