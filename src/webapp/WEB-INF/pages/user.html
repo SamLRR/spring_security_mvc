@@ -7,7 +7,10 @@
 </head>
 <body>
 <h2> User page</h2>
-
+<div>
+    <input type=button onClick="parent.location='logout'"
+           value='Logout'>
+</div>
 
 <form th:method="POST" th:action="@{/user/update}" th:object="${user}">
 

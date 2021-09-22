@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
     public User findUserByName(String username) {
 
         User user = entityManager.createQuery(
-                "SELECT u FROM User u WHERE u.userName LIKE :username", User.class)
+                        "SELECT u FROM User u WHERE u.userName LIKE :username", User.class)
                 .setParameter("username", username)
                 .getResultList().stream().findFirst().orElse(null);
         if (user == null) {

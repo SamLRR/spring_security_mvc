@@ -19,5 +19,4 @@ public class RoleController {
         model.addAttribute("roles", roleService.getAllRoles());
         return "roles";
     }
-
 }

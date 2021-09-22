@@ -28,10 +28,10 @@
     <input type="hidden" th:field="*{password}">
 
     <div>
-    <th:block th:each="role:  ${role}">
-        <input type="checkbox" th:field="*{roles}"
-          th:text="${role.name}" th:value="${role.id}"/>
-    </th:block>
+        <li th:each="role : ${roles}">
+            <input type="checkbox" th:name="${role.name}" th:checked="${#arrays.contains(user.roles, role.name)}"/>
+            <label th:text="${role.name}"></label>
+        </li>
     </div>
 
     <input type="submit" value="Update">
