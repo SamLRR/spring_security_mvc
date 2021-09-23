@@ -3,10 +3,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add new user form</title>
+    <title>Update user form</title>
 </head>
 <body>
-<h2> Add user data</h2>
+<h2> Update user data</h2>
 
 
 <form th:method="POST" th:action="@{/user/update}" th:object="${user}">
@@ -28,8 +28,8 @@
     <input type="hidden" th:field="*{password}">
 
     <div>
-        <li th:each="role : ${roles}">
-            <input type="checkbox" th:name="${role.name}" th:checked="${#arrays.contains(user.roles, role.name)}"/>
+        <li th:each="role : ${allRoles}">
+            <input type="checkbox" th:name="${role.name}" th:checked="${#sets.contains(user.getRoles(), role)}"/>
             <label th:text="${role.name}"></label>
         </li>
     </div>

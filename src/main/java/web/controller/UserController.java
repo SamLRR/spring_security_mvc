@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
@@ -56,7 +57,25 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public String addUser(@ModelAttribute("user") User user) {
+    public String addUser(@ModelAttribute("user") User user, ModelMap model, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("bindingResult", bindingResult.getAllErrors());
+            return "addUser";
+        }
+
+        if (userService.getAllUser()
+                .stream()
+                .anyMatch(u -> u.getUsername().equals(user.getUsername()))) {
+            model.addAttribute("loginError", "Login already exists, please choose another login");
+            return "addUser";
+        }
+
+        if (user.getPassword() != null && !user.getPassword().equals(user.getPasswordConfirm())) {
+            model.addAttribute("passwordError", "Passwords are different");
+            return "addUser";
+        }
+
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         Role roleUser = roleService.findByName("USER");
         user.setRole(roleUser);
@@ -68,7 +87,7 @@ public class UserController {
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         User userFromDB = userService.findById(id);
         model.addAttribute("user", userFromDB);
-        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "updateUser";
     }
 

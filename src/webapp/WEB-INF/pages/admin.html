@@ -21,8 +21,9 @@
             <th> Id</th>
             <th> First Name</th>
             <th> Last name</th>
-            <th> email</th>
-            <th> login</th>
+            <th> Email</th>
+            <th> Login</th>
+            <th> Roles</th>
         </tr>
         </thead>
         <tbody>
@@ -34,7 +35,8 @@
             <td><span th:text="${user.getFirstName()}">First Name </span></td>
             <td><span th:text="${user.getLastName()}"> Last Name </span></td>
             <td><span th:text="${user.getEmail()}"> Email </span></td>
-            <td><span th:text="${user.getUsername()}"> Email </span></td>
+            <td><span th:text="${user.getUsername()}"> Login </span></td>
+            <td><span th:text="${user.getRoles()}"> Roles </span></td>
             <td><a th:href="@{user/update/{id}(id=${user.id})}">Edit</a></td>
             <td><a th:href="@{user/remove/{id}(id=${user.id})}">Remove</a></td>
         </tr>
